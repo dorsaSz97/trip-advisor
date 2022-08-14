@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Box, AppBar, Toolbar, Typography } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, List, Drawer } from '@mui/material';
 import { styled } from '@mui/material';
 
 import AppContext from '../../store/app-context';
+import cutleryImg from '../../assets/home.svg';
 import logoImg from '../../assets/logo.webp';
 
 const navLinks = [
@@ -22,50 +23,78 @@ const Header = () => {
   const ctx = useContext(AppContext);
 
   return (
-    <HeaderBox component="header">
-      <AppBar
+    <Drawer variant="permanent" open={false}>
+      <List
         component="nav"
-        sx={{
-          position: 'static',
-          backgroundColor: 'transparent',
-          color: 'customBlack.main',
-          boxShadow: 'none',
-        }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: '40px' }}
       >
-        <Toolbar>
-          <Box flexGrow="1" display="flex" alignItems="center" gap="5px">
-            <img
-              src={logoImg}
-              alt="Michelin logo"
-              style={{ width: '30px', height: '30px' }}
-            />
-            <Typography
-              component="h1"
-              fontSize="1.5rem"
-              fontWeight="bold"
-              fontStyle="italic"
-            >
-              MICHELIN
-            </Typography>
-          </Box>
-          <Box component="ul" display="flex" gap="20px">
-            {navLinks.map((item, i) => (
-              <li
-                key={i}
-                onClick={() => ctx.setCategory(item.category)}
-                style={{
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  fontSize: '0.9rem',
-                }}
-              >
-                {item.text}
-              </li>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </HeaderBox>
+        <img
+          src={cutleryImg}
+          alt=""
+          style={{ padding: '1.5rem', cursor: 'pointer' }}
+        />
+        <img
+          src={cutleryImg}
+          alt=""
+          style={{ padding: '1.5rem', cursor: 'pointer' }}
+        />
+        <img
+          src={cutleryImg}
+          alt=""
+          style={{ padding: '1.5rem', cursor: 'pointer' }}
+        />
+        <img
+          src={cutleryImg}
+          alt=""
+          style={{ padding: '1.5rem', cursor: 'pointer' }}
+        />
+      </List>
+    </Drawer>
+
+    // <HeaderBox component="header">
+    //   <AppBar
+    //     component="nav"
+    //     sx={{
+    //       position: 'static',
+    //       backgroundColor: 'transparent',
+    //       color: 'customBlack.main',
+    //       boxShadow: 'none',
+    //     }}
+    //   >
+    //     <Toolbar>
+    //       <Box flexGrow="1" display="flex" alignItems="center" gap="5px">
+    //         <img
+    //           src={logoImg}
+    //           alt="Michelin logo"
+    //           style={{ width: '30px', height: '30px' }}
+    //         />
+    //         <Typography
+    //           component="h1"
+    //           fontSize="1.5rem"
+    //           fontWeight="bold"
+    //           fontStyle="italic"
+    //         >
+    //           MICHELIN
+    //         </Typography>
+    //       </Box>
+    //       <Box component="ul" display="flex" gap="20px">
+    //         {navLinks.map((item, i) => (
+    //           <li
+    //             key={i}
+    //             onClick={() => ctx.setCategory(item.category)}
+    //             style={{
+    //               cursor: 'pointer',
+    //               textTransform: 'uppercase',
+    //               fontSize: '0.9rem',
+    //             }}
+    //           >
+    //             {item.text}
+    //           </li>
+    //         ))}
+    //       </Box>
+    //     </Toolbar>
+    //   </AppBar>
+    // </HeaderBox>
   );
 };
 
