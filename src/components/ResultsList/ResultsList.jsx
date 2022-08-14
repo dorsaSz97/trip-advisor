@@ -16,22 +16,23 @@ import moneyIcon from '../../assets/money.svg';
 
 import AppContext from '../../store/app-context';
 import StarIcon from '../Icons/StarIcon';
+import { setCoords } from '../../store/actionCreators';
 
 const ResultsList = () => {
   // get all the results from the context ctx.results
-  const ctx = useContext(AppContext);
+  const [state, dispatch] = useContext(AppContext);
 
   return (
     <Box height="100vh" overflow="scroll" paddingInline="5rem">
       <List component="ul">
-        {ctx.results.length !== 0 &&
-          ctx.results.map((result, index) => {
+        {state.results.length !== 0 &&
+          state.results.map((result, index) => {
             return (
               <ListItem key={index} component="li">
                 <Card
                   sx={{ width: '100%' }}
                   onClick={() =>
-                    ctx.setCenter(result.latitude, result.longitude)
+                    dispatch(setCoords(result.latitude, result.longitude))
                   }
                 >
                   <CardActionArea>

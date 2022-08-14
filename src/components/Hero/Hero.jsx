@@ -8,6 +8,7 @@ import ScrollReveal from 'scrollreveal';
 import AppContext from '../../store/app-context';
 import ChangeView from '../ChangeView';
 import ResultsList from '../ResultsList';
+import { setLocation } from '../../store/actionCreators';
 
 function GetIcon() {
   return L.icon({
@@ -18,15 +19,15 @@ function GetIcon() {
 
 const Hero = () => {
   const [searchClicked, setSearchClicked] = useState(false);
-  const ctx = useContext(AppContext);
+  const [state, dispatch] = useContext(AppContext);
   const [searchInputValue, setSearchInputValue] = useState('');
 
   let verb;
-  if (ctx.type === 'restaurants') {
+  if (state.category === 'restaurants') {
     verb = 'eat';
-  } else if (ctx.type === 'hotels') {
+  } else if (state.category === 'hotels') {
     verb = 'stay';
-  } else if (ctx.type === 'attractions') {
+  } else if (state.category === 'attractions') {
     verb = 'visit';
   }
 
@@ -39,7 +40,7 @@ const Hero = () => {
 
     setSearchClicked(true);
 
-    ctx.setPlace(searchInputValue);
+    dispatch(setLocation(searchInputValue));
   };
 
   useEffect(() => {
@@ -87,16 +88,11 @@ const Hero = () => {
                 width: '100%',
               }}
             >
-              {/* <Autocomplete
-              onLoad={onLoadHandler}
-              onPlaceChanged={onPlaceChangedHandler}
-            > */}
               <InputBase
                 onChange={searchChangeHandler}
                 placeholder="Enter a country, city..."
                 sx={{ ml: 1, flex: 1 }}
               />
-              {/* </Autocomplete> */}
               <Button
                 type="submit"
                 sx={{
@@ -124,8 +120,8 @@ const Hero = () => {
         {searchClicked && (
           <MapContainer
             center={[
-              !ctx.placeCoords ? 0 : Number(ctx.placeCoords[0]),
-              !ctx.placeCoords ? 0 : Number(ctx.placeCoords[1]),
+              !state.searchedCoords.lat ? 0 : Number(state.searchedCoords.lat),
+              !state.searchedCoords.lng ? 0 : Number(state.searchedCoords.lng),
             ]}
             zoom={13}
             scrollWheelZoom={false}
@@ -135,11 +131,11 @@ const Hero = () => {
             <ChangeView />
 
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
             />
-            {ctx.results.length !== 0 &&
-              ctx.results.map((c, i) => {
+            {state.results.length !== 0 &&
+              state.results.map((c, i) => {
                 if (!c.latitude || !c.longitude || !c.name) return '';
                 return (
                   <Marker

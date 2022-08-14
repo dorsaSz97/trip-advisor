@@ -5,25 +5,23 @@ import 'leaflet/dist/leaflet.css';
 import AppContext from '../../store/app-context';
 
 const ChangeView = () => {
-  const ctx = useContext(AppContext);
+  const [state, dispatch] = useContext(AppContext);
   const map = useMap();
 
+  console.log(state.searchedCoords);
   useEffect(() => {
-    if (
-      ctx.centerCoord.length === 0 ||
-      !ctx.centerCoord[0] ||
-      !ctx.centerCoord[1]
-    ) {
-      return;
+    if (state.searchedCoords.lat && state.searchedCoords.lng) {
+      map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 15);
+    } else {
+      map.setView([0, 0], 15);
     }
-    map.setView([ctx.centerCoord[0], ctx.centerCoord[1]], 15);
-  }, [ctx.centerCoord, map]);
+  }, []);
 
-  if (ctx.placeCoords[0] && ctx.placeCoords[1]) {
-    map.setView([ctx.placeCoords[0], ctx.placeCoords[1]], 15);
-  } else {
-    map.setView([0, 0], 15);
+  if (!state.searchedCoords.lat || !state.searchedCoords.lng) {
+    return;
   }
+  map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 15);
+
   return null;
 };
 
