@@ -53,7 +53,7 @@ const useResults = () => {
           setIsError('Fetching results from TRIPADVISOR API went wrong');
         });
     },
-    [state.resultsBounds]
+    [state.resultsBounds, state.category]
   );
 
   return { getResults, isLoading, isError };

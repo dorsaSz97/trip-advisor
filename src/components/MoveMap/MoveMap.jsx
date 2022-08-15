@@ -11,16 +11,16 @@ const MoveMap = () => {
   console.log(state.searchedCoords);
   useEffect(() => {
     if (state.searchedCoords.lat && state.searchedCoords.lng) {
-      map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 15);
+      map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 12);
     } else {
-      map.setView([0, 0], 15);
+      map.setView([0, 0], 12);
     }
   }, []);
 
   if (!state.searchedCoords.lat || !state.searchedCoords.lng) {
     return;
   }
-  map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 15);
+  map.setView([state.searchedCoords.lat, state.searchedCoords.lng], 12);
 
   return null;
 };

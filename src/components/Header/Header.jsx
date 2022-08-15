@@ -3,12 +3,13 @@ import { Box, AppBar, Toolbar, Typography, List, Drawer } from '@mui/material';
 import { styled } from '@mui/material';
 
 import AppContext from '../../store/app-context';
+import { setCategory } from '../../store/actionCreators';
+import useResults from '../../hooks/useResults';
+
 import hotelImg from '../../assets/home.svg';
 import restaurantImg from '../../assets/cutlery.svg';
 import attractionImg from '../../assets/pin.svg';
-
 import logoImg from '../../assets/logo.webp';
-import { setCategory } from '../../store/actionCreators';
 
 const navLinks = [
   { text: 'hotels', category: 'hotels', logo: hotelImg },
@@ -25,6 +26,8 @@ const HeaderBox = styled(Box)({
 
 const Header = ({ isSubmitted }) => {
   const [state, dispatch] = useContext(AppContext);
+  const { getResults, isError, isLoading } = useResults();
+
   return (
     <>
       {!isSubmitted && (
@@ -111,7 +114,10 @@ const Header = ({ isSubmitted }) => {
                         : 'transparent'
                     }`,
                   }}
-                  onClick={() => dispatch(setCategory(link.category))}
+                  onClick={() => {
+                    dispatch(setCategory(link.category));
+                    console.log(state.category);
+                  }}
                 />
               );
             })}

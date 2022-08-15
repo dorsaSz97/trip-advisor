@@ -9,7 +9,7 @@ import {
 const appReducer = (state, { type, payload }) => {
   switch (type) {
     case SET_CATEGORY:
-      return { ...state, category: payload };
+      return { ...state, category: payload, results: [] };
 
     case SET_LOCATION:
       return {

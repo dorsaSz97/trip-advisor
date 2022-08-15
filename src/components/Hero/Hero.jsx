@@ -160,7 +160,7 @@ const Hero = ({ setClickStatus }) => {
               !state.searchedCoords.lat ? 0 : Number(state.searchedCoords.lat),
               !state.searchedCoords.lng ? 0 : Number(state.searchedCoords.lng),
             ]}
-            zoom={13}
+            zoom={12}
             scrollWheelZoom={false}
             style={{ width: '100%', height: '100%' }}
           >
