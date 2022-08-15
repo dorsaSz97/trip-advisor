@@ -27,6 +27,7 @@ const ResultsList = () => {
       <List component="ul">
         {state.results.length !== 0 &&
           state.results.map((result, index) => {
+            if (!result.name) return null;
             return (
               <ListItem key={index} component="li">
                 <Card
@@ -58,7 +59,13 @@ const ResultsList = () => {
                           <ListItem component="li">
                             <img src={moneyIcon} alt="Money" />
                             <Typography component="p">
-                              {result.cuisine && result.cuisine[0].name}
+                              {state.category === 'hotels' &&
+                                result.subcategory_type_label}
+                              {state.category === 'restaurants' &&
+                                result.cuisine &&
+                                result.cuisine[0].name}
+                              {state.category === 'attractions' &&
+                                result.subtype[0].name}
                             </Typography>
                           </ListItem>
                           <ListItem component="li">
@@ -71,6 +78,8 @@ const ResultsList = () => {
                       </Box>
                     </CardContent>
                   </CardActionArea>
+                  {/* web_url: "https://www.tripadvisor.com/Attraction_Review-g562654-d12238131-Reviews-Sambil_Outlet-Leganes.html"
+website */}
                 </Card>
               </ListItem>
             );

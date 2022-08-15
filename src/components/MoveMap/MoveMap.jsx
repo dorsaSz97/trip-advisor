@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
 
-const ChangeView = () => {
+const MoveMap = () => {
   const [state, dispatch] = useContext(AppContext);
   const map = useMap();
 
@@ -25,4 +25,4 @@ const ChangeView = () => {
   return null;
 };
 
-export default ChangeView;
+export default MoveMap;

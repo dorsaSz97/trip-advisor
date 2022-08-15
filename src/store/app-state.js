@@ -1,5 +1,5 @@
 const initialAppState = {
-  category: '',
+  category: 'restaurants',
 
   searchedLocation: '',
 

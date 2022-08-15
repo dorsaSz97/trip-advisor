@@ -1,32 +1,49 @@
-import React from 'react';
-import Header from './components/Header';
+import React, { useEffect, useState } from 'react';
 import { CssBaseline } from '@mui/material';
-import { useEffect } from 'react';
-import Hero from './components/Hero';
+
 import useSearch from './hooks/useSearch';
 import useResults from './hooks/useResults';
 
+import Header from './components/Header';
+import Hero from './components/Hero';
+
 function App() {
-  const { getCoords } = useSearch();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const {
+    getCoords,
+    isError: searchError,
+    isLoading: isSearchLoading,
+  } = useSearch();
   const { getResults } = useResults();
 
   useEffect(() => {
-    // TODO: abort the fetching
-    getCoords();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    getCoords(signal);
+
+    return () => controller.abort();
   }, [getCoords]);
 
   useEffect(() => {
-    // TODO: abort the fetching
-    getResults();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    getResults(signal);
+
+    return () => controller.abort();
   }, [getResults]);
+
+  const setClickStatus = status => {
+    setIsSubmitted(status);
+  };
 
   return (
     <>
+      {/* normalize some style properties */}
       <CssBaseline />
 
-      <Header />
+      <Header isSubmitted={isSubmitted} />
 
-      <Hero />
+      <Hero setClickStatus={setClickStatus} />
     </>
   );
 }

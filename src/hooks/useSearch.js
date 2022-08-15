@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useContext } from 'react';
 import axios from 'axios';
-import { useContext } from 'react';
+
 import AppContext from '../store/app-context';
 import { setCoords, setBounds } from '../store/actionCreators';
 
@@ -9,49 +9,56 @@ const useSearch = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getCoords = useCallback(() => {
-    setIsLoading(true);
+  const getCoords = useCallback(
+    signal => {
+      setIsLoading(true);
+      setIsError(false);
 
-    if (state.searchedLocation.trim().length === 0) {
-      console.log('entersth');
-      setIsError('enter sth');
-      return;
-    }
+      if (!state.searchedLocation) {
+        return;
+      }
 
-    const options = {
-      method: 'GET',
-      url: 'https://forward-reverse-geocoding.p.rapidapi.com/v1/forward',
-      params: {
-        city: state.searchedLocation,
-      },
-      headers: {
-        'X-RapidAPI-Key': 'a26de7b984msh26050a96285dd51p181f31jsn8eb4383ff23d',
-        'X-RapidAPI-Host': 'forward-reverse-geocoding.p.rapidapi.com',
-      },
-    };
+      console.log('this is useSearch');
 
-    axios
-      .request(options)
-      .then(response => {
-        console.log(response.data);
-        setIsLoading(false);
-        setIsError(false);
-        dispatch(setCoords(response.data[0].lat, response.data[0].lon));
-        dispatch(
-          setBounds(
-            response.data[0].boundingbox[0],
-            response.data[0].boundingbox[1],
-            response.data[0].boundingbox[2],
-            response.data[0].boundingbox[3]
-          )
-        );
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-  }, [state.searchedLocation]);
+      const options = {
+        method: 'GET',
+        url: 'https://forward-reverse-geocoding.p.rapidapi.com/v1/forward',
+        params: {
+          city: state.searchedLocation.toLowerCase(),
+        },
+        headers: {
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'forward-reverse-geocoding.p.rapidapi.com',
+        },
+        signal: signal,
+      };
 
-  return { getCoords, isLoading };
+      axios
+        .request(options)
+        .then(response => {
+          // console.log(response.data[0]);
+          setIsLoading(false);
+          setIsError(false);
+
+          dispatch(setCoords(response.data[0].lat, response.data[0].lon));
+          dispatch(
+            setBounds(
+              response.data[0].boundingbox[0],
+              response.data[0].boundingbox[1],
+              response.data[0].boundingbox[2],
+              response.data[0].boundingbox[3]
+            )
+          );
+        })
+        .catch(_ => {
+          setIsLoading(false);
+          setIsError('Fetching coords from FWREVERSE API went wrong');
+        });
+    },
+    [state.searchedLocation]
+  ); //dispatch method is ensured by react to not change on each render
+
+  return { getCoords, isLoading, isError };
 };
 
 export default useSearch;

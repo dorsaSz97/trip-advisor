@@ -6,29 +6,43 @@ import 'leaflet/dist/leaflet.css';
 import ScrollReveal from 'scrollreveal';
 
 import AppContext from '../../store/app-context';
-import ChangeView from '../ChangeView';
-import ResultsList from '../ResultsList';
 import { setLocation } from '../../store/actionCreators';
+
+import MoveMap from '../MoveMap';
+import ResultsList from '../ResultsList';
+
+import attractionsImg from '../../assets/attractions.jpg';
+import restaurantsImg from '../../assets/restaurants.jpg';
+import hotelsImg from '../../assets/hotels.jpg';
 
 function GetIcon() {
   return L.icon({
-    iconUrl: require('../../assets/logo.webp'),
-    iconSize: 36,
+    iconUrl: require('../../assets/cutlery.png'),
+    iconSize: 40,
   });
 }
 
-const Hero = () => {
-  const [searchClicked, setSearchClicked] = useState(false);
+const Hero = ({ setClickStatus }) => {
   const [state, dispatch] = useContext(AppContext);
+
   const [searchInputValue, setSearchInputValue] = useState('');
+  const [isSearchTouched, setIsSearchTouched] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const isSearchValid = searchInputValue.trim().length !== 0;
+  const isSearchInvalid = !isSearchValid && isSearchTouched;
 
   let verb;
+  let imgCategory;
   if (state.category === 'restaurants') {
     verb = 'eat';
+    imgCategory = restaurantsImg;
   } else if (state.category === 'hotels') {
     verb = 'stay';
+    imgCategory = hotelsImg;
   } else if (state.category === 'attractions') {
     verb = 'visit';
+    imgCategory = attractionsImg;
   }
 
   const searchChangeHandler = e => {
@@ -38,86 +52,109 @@ const Hero = () => {
   const searchClickHandler = e => {
     e.preventDefault();
 
-    setSearchClicked(true);
+    setIsSearchTouched(true);
+    setIsSubmitted(true);
+    setClickStatus(true);
 
     dispatch(setLocation(searchInputValue));
   };
 
-  useEffect(() => {
-    if (searchClicked) {
-      ScrollReveal().reveal('.headline', {
-        origin: 'left',
-        distance: '100px',
-        duration: 800,
-        opacity: 0,
-        delay: 300,
-      });
-    }
-  }, [searchClicked]);
+  // useEffect(() => {
+  //   ScrollReveal().reveal('.search-form', {
+  //     origin: 'left',
+  //     distance: '150%',
+  //     duration: 800,
+  //     opacity: 0,
+  //     delay: 500,
+  //   });
+  // }, []);
 
   return (
-    <Grid container width={'100%'} height={'100vh'}>
-      <Grid
-        item
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          width: '50%',
-        }}
-      >
-        {!searchClicked && (
+    <Grid container width="100%" height="100vh">
+      <Grid item xs={12} md={6} position="relative">
+        {!isSubmitted && (
           <Box
+            className="search-form"
             display="flex"
             flexDirection="column"
-            marginLeft="30%"
-            width="100%"
+            position="absolute"
+            left="30%"
+            top="50%"
+            width="90%"
             zIndex="1"
+            sx={{ transform: 'translateY(-50%)', gap: 3 }}
           >
-            <Typography component="h2" variant="h2" sx={{ maxWidth: '13ch' }}>
-              {`Where do you want to ${verb}?`}
+            <Typography
+              component="h2"
+              variant="h2"
+              sx={{
+                maxWidth: '14ch',
+              }}
+            >
+              Where do you want to
+              <Typography
+                component="span"
+                variant="h2"
+                sx={{ color: 'customBlue.main' }}
+              >
+                {' '}
+                {verb}
+              </Typography>
+              ?
             </Typography>
 
             <Paper
-              onSubmit={searchClickHandler}
               component="form"
               sx={{
-                p: '2px 4px',
                 display: 'flex',
-                alignItems: 'center',
-                width: '100%',
               }}
+              onSubmit={searchClickHandler}
             >
               <InputBase
+                placeholder="Enter a city name..."
+                sx={{ px: 2, flex: 1 }}
                 onChange={searchChangeHandler}
-                placeholder="Enter a country, city..."
-                sx={{ ml: 1, flex: 1 }}
+                onBlur={() => setIsSearchTouched(true)}
               />
               <Button
                 type="submit"
                 sx={{
                   backgroundColor: 'customBlue.main',
                   color: 'white',
-                  paddingBlock: '1rem',
+                  p: 2,
                   '&:hover': {
-                    color: 'customBlack.main',
+                    backgroundColor: 'customBlue.dark',
                   },
                 }}
               >
                 Search
               </Button>
             </Paper>
+            {isSearchInvalid && (
+              <Typography variant="body1" color="red">
+                You havent entered anything! Please enter a city name :)
+              </Typography>
+            )}
           </Box>
         )}
 
-        {searchClicked && <ResultsList />}
+        {isSubmitted && <ResultsList />}
       </Grid>
 
-      <Grid
-        item
-        sx={{ backgroundColor: '#aaa', width: '50%', height: '100vh' }}
-      >
-        {searchClicked && (
+      <Grid item xs={12} md={6}>
+        {!isSubmitted && (
+          <img
+            src={imgCategory}
+            alt={state.cateogry}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        )}
+
+        {isSubmitted && (
           <MapContainer
             center={[
               !state.searchedCoords.lat ? 0 : Number(state.searchedCoords.lat),
@@ -126,29 +163,33 @@ const Hero = () => {
             zoom={13}
             scrollWheelZoom={false}
             style={{ width: '100%', height: '100%' }}
-            placeholder={<p>WAIT</p>}
           >
-            <ChangeView />
+            {/* the map wont render on its own when the coords change so we have to force that with changing the props in a child component */}
+            <MoveMap />
 
             <TileLayer
               url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
               attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
             />
             {state.results.length !== 0 &&
-              state.results.map((c, i) => {
-                if (!c.latitude || !c.longitude || !c.name) return '';
+              state.results.map((result, i) => {
+                if (!result.latitude || !result.longitude || !result.name)
+                  return '';
                 return (
                   <Marker
-                    icon={GetIcon()}
                     key={i}
-                    position={[Number(c.latitude), Number(c.longitude)]}
+                    icon={GetIcon()}
+                    position={[
+                      Number(result.latitude),
+                      Number(result.longitude),
+                    ]}
                   >
                     <Popup>
-                      <Box backgroundColor="customBlue.main" color="white">
-                        <Typography variant="h6">{c.name}</Typography>
-                        <Typography variant="p">{c.address}</Typography>
-                        <Typography variant="p">{c.price}</Typography>
-                        <Typography variant="p">{c.ranking}</Typography>
+                      <Box>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                          {result.name}
+                        </Typography>
+                        <Typography variant="p">{result.address}</Typography>
                       </Box>
                     </Popup>
                   </Marker>

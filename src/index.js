@@ -16,6 +16,16 @@ const appTheme = createTheme({
     },
     customBlue: {
       main: '#148BE9',
+      dark: '#0e7ad1',
+    },
+    text: {
+      primary: '#29293E',
+    },
+  },
+  typography: {
+    h2: {
+      fontWeight: 'bold',
+      textTransform: 'capitalize',
     },
   },
 });
