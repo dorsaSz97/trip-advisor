@@ -1,11 +1,13 @@
-export const initialAppState = {
+const initialAppState = {
   category: '',
 
   searchedLocation: '',
 
   searchedCoords: {},
 
-  results: [],
-
   resultsBounds: {},
+
+  results: [],
 };
+
+export default initialAppState;

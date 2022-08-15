@@ -6,20 +6,17 @@ import {
   SET_BOUNDS,
 } from './actionTypes';
 
-export const appReducer = (state, { type, payload }) => {
+const appReducer = (state, { type, payload }) => {
   switch (type) {
     case SET_CATEGORY:
       return { ...state, category: payload };
+
     case SET_LOCATION:
       return {
         ...state,
         searchedLocation: payload,
       };
-    case SET_RESULTS:
-      return {
-        ...state,
-        results: [...payload],
-      };
+
     case SET_COORDS:
       return {
         ...state,
@@ -28,11 +25,11 @@ export const appReducer = (state, { type, payload }) => {
           lng: payload.lng,
         },
       };
+
     case SET_BOUNDS:
       return {
         ...state,
         resultsBounds: {
-          ...state.resultsBounds,
           p1: payload.p1,
           p2: payload.p2,
           p3: payload.p3,
@@ -40,7 +37,15 @@ export const appReducer = (state, { type, payload }) => {
         },
       };
 
+    case SET_RESULTS:
+      return {
+        ...state,
+        results: payload,
+      };
+
     default:
       return state;
   }
 };
+
+export default appReducer;
