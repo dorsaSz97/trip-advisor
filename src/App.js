@@ -8,7 +8,6 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 
 function App() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     getCoords,
     isError: searchError,
@@ -34,18 +33,14 @@ function App() {
     return () => controller.abort();
   }, [getResults]);
 
-  const setClickStatus = status => {
-    setIsSubmitted(status);
-  };
-
   return (
     <>
       {/* normalize some style properties */}
       <CssBaseline />
 
-      <Header isSubmitted={isSubmitted} />
+      <Header />
 
-      <Hero setClickStatus={setClickStatus} />
+      <Hero />
     </>
   );
 }

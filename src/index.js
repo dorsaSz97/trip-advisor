@@ -17,6 +17,9 @@ const appTheme = createTheme({
       main: '#148BE9',
       dark: '#0e7ad1',
     },
+    customRed: {
+      main: '#EA526F',
+    },
     text: {
       primary: '#29293E',
     },

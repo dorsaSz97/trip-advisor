@@ -8,6 +8,10 @@ const initialAppState = {
   resultsBounds: {},
 
   results: [],
+
+  isSubmitted: false,
+
+  selectedResult: null,
 };
 
 export default initialAppState;

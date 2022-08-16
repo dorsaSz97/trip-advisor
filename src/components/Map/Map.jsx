@@ -5,6 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
+import { setSelected } from '../../store/actionCreators';
 
 import MapMovement from '../MapMovement';
 
@@ -25,8 +26,8 @@ const getMarkerIcon = () =>
   });
 // ----------------- -----------------
 
-const Map = ({ setSelectedIndex }) => {
-  const [state] = useContext(AppContext);
+const Map = () => {
+  const [state, dispatch] = useContext(AppContext);
 
   return (
     <MapContainer
@@ -53,17 +54,28 @@ const Map = ({ setSelectedIndex }) => {
               position={[Number(result.latitude), Number(result.longitude)]}
               eventHandlers={{
                 click: () => {
-                  setSelectedIndex(index);
+                  dispatch(setSelected(index));
                 },
               }}
             >
               <Popup>
                 <Box>
-                  <Typography variant="h6" fontWeight="bold" mb="0.8rem">
+                  <Typography
+                    component="h6"
+                    variant="h6"
+                    fontWeight="bold"
+                    mb="0.8rem"
+                  >
                     {result.name}
                   </Typography>
-                  <Typography fontSize="0.9rem">{result.address}</Typography>
-                  <Typography fontSize="0.9rem" color="customBlue.main">
+                  <Typography component="p" fontSize="0.9rem">
+                    {result.address}
+                  </Typography>
+                  <Typography
+                    component="p"
+                    fontSize="0.9rem"
+                    color="customBlue.main"
+                  >
                     {result.phone}
                   </Typography>
                 </Box>

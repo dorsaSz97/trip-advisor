@@ -4,6 +4,8 @@ import {
   SET_RESULTS,
   SET_COORDS,
   SET_BOUNDS,
+  SET_SUBMIT,
+  SET_SELECTED,
 } from './actionTypes';
 
 export const setCategory = category => ({
@@ -25,4 +27,12 @@ export const setBounds = (p1, p2, p3, p4) => ({
 export const setResults = results => ({
   type: SET_RESULTS,
   payload: [...results],
+});
+export const setSubmit = isSubmitted => ({
+  type: SET_SUBMIT,
+  payload: isSubmitted,
+});
+export const setSelected = index => ({
+  type: SET_SELECTED,
+  payload: index,
 });
