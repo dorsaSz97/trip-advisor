@@ -21,8 +21,8 @@ const appReducer = (state, { type, payload }) => {
       return {
         ...state,
         searchedCoords: {
-          lat: payload.lat,
-          lng: payload.lng,
+          lat: Number(payload.lat),
+          lng: Number(payload.lng),
         },
       };
 
@@ -30,10 +30,10 @@ const appReducer = (state, { type, payload }) => {
       return {
         ...state,
         resultsBounds: {
-          p1: payload.p1,
-          p2: payload.p2,
-          p3: payload.p3,
-          p4: payload.p4,
+          p1: Number(payload.p1),
+          p2: Number(payload.p2),
+          p3: Number(payload.p3),
+          p4: Number(payload.p4),
         },
       };
 

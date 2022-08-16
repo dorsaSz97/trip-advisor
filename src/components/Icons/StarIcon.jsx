@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StarIcon = () => {
+const StarIcon = ({ clr }) => {
   return (
     <svg
       width="15px"
@@ -20,7 +20,7 @@ const StarIcon = () => {
         <g
           id="via-michelin"
           transform="translate(-655.000000, -271.000000)"
-          stroke="#EA526F"
+          stroke={clr === 'full' ? '#EA526F' : 'grey'}
           strokeWidth="1.2"
         >
           <g id="restaurant-1" transform="translate(132.000000, 258.000000)">

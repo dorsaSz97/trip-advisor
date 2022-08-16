@@ -19,8 +19,10 @@ function App() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    getCoords(signal);
 
+    console.log('before fetch');
+    getCoords(signal);
+    console.log('after fetch');
     return () => controller.abort();
   }, [getCoords]);
 

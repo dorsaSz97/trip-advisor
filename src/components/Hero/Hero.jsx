@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Box, Grid, Paper, InputBase, Button, Typography } from '@mui/material';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -18,7 +18,7 @@ import hotelsImg from '../../assets/hotels.jpg';
 function GetIcon() {
   return L.icon({
     iconUrl: require('../../assets/cutlery.png'),
-    iconSize: 40,
+    iconSize: [40, 40],
   });
 }
 
@@ -32,6 +32,7 @@ const Hero = ({ setClickStatus }) => {
   const isSearchValid = searchInputValue.trim().length !== 0;
   const isSearchInvalid = !isSearchValid && isSearchTouched;
 
+  const [selectedMarker, setSelecteMarker] = useState(null);
   let verb;
   let imgCategory;
   if (state.category === 'restaurants') {
@@ -58,20 +59,25 @@ const Hero = ({ setClickStatus }) => {
 
     dispatch(setLocation(searchInputValue));
   };
-
-  // useEffect(() => {
-  //   ScrollReveal().reveal('.search-form', {
-  //     origin: 'left',
-  //     distance: '150%',
-  //     duration: 800,
-  //     opacity: 0,
-  //     delay: 500,
-  //   });
-  // }, []);
+  ScrollReveal().reveal('.search-form', {
+    origin: 'left',
+    distance: '150%',
+    duration: 1000,
+    opacity: 0,
+    delay: 500,
+  });
+  useEffect(() => {}, []);
 
   return (
     <Grid container width="100%" height="100vh">
-      <Grid item xs={12} md={6} position="relative">
+      <Grid
+        item
+        xs={12}
+        md={6}
+        position="relative"
+        height="100%"
+        // sx={{ overflowY: 'hidden' }}
+      >
         {!isSubmitted && (
           <Box
             className="search-form"
@@ -138,10 +144,10 @@ const Hero = ({ setClickStatus }) => {
           </Box>
         )}
 
-        {isSubmitted && <ResultsList />}
+        {isSubmitted && <ResultsList selectedMarker={selectedMarker} />}
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={6} height="100%">
         {!isSubmitted && (
           <img
             src={imgCategory}
@@ -160,7 +166,7 @@ const Hero = ({ setClickStatus }) => {
               !state.searchedCoords.lat ? 0 : Number(state.searchedCoords.lat),
               !state.searchedCoords.lng ? 0 : Number(state.searchedCoords.lng),
             ]}
-            zoom={12}
+            zoom={13}
             scrollWheelZoom={false}
             style={{ width: '100%', height: '100%' }}
           >
@@ -175,6 +181,7 @@ const Hero = ({ setClickStatus }) => {
               state.results.map((result, i) => {
                 if (!result.latitude || !result.longitude || !result.name)
                   return '';
+
                 return (
                   <Marker
                     key={i}
@@ -183,6 +190,12 @@ const Hero = ({ setClickStatus }) => {
                       Number(result.latitude),
                       Number(result.longitude),
                     ]}
+                    eventHandlers={{
+                      click: e => {
+                        console.log(e.latlng);
+                        setSelecteMarker(i);
+                      },
+                    }}
                   >
                     <Popup>
                       <Box>

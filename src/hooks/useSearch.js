@@ -18,7 +18,7 @@ const useSearch = () => {
         return;
       }
 
-      console.log('this is useSearch');
+      console.log('during fetch');
 
       const options = {
         method: 'GET',
@@ -40,7 +40,12 @@ const useSearch = () => {
           setIsLoading(false);
           setIsError(false);
 
-          dispatch(setCoords(response.data[0].lat, response.data[0].lon));
+          dispatch(
+            setCoords(
+              Number(response.data[0].lat),
+              Number(response.data[0].lon)
+            )
+          );
           dispatch(
             setBounds(
               response.data[0].boundingbox[0],
