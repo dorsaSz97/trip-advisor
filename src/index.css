@@ -17,3 +17,7 @@
 .leaflet-container .leaflet-marker-pane img {
   padding: 8px;
 }
+.leaflet-popup-content p {
+  margin: 0 !important;
+  margin-bottom: 0.5rem !important;
+}

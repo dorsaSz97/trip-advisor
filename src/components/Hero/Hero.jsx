@@ -1,26 +1,16 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Box, Grid, Paper, InputBase, Button, Typography } from '@mui/material';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import ScrollReveal from 'scrollreveal';
 
 import AppContext from '../../store/app-context';
 import { setLocation } from '../../store/actionCreators';
 
-import MoveMap from '../MoveMap';
 import ResultsList from '../ResultsList';
 
 import attractionsImg from '../../assets/attractions.jpg';
 import restaurantsImg from '../../assets/restaurants.jpg';
 import hotelsImg from '../../assets/hotels.jpg';
-
-function GetIcon() {
-  return L.icon({
-    iconUrl: require('../../assets/cutlery.png'),
-    iconSize: [40, 40],
-  });
-}
+import Map from '../Map';
 
 const Hero = ({ setClickStatus }) => {
   const [state, dispatch] = useContext(AppContext);
@@ -32,7 +22,7 @@ const Hero = ({ setClickStatus }) => {
   const isSearchValid = searchInputValue.trim().length !== 0;
   const isSearchInvalid = !isSearchValid && isSearchTouched;
 
-  const [selectedMarker, setSelecteMarker] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   let verb;
   let imgCategory;
   if (state.category === 'restaurants') {
@@ -144,7 +134,7 @@ const Hero = ({ setClickStatus }) => {
           </Box>
         )}
 
-        {isSubmitted && <ResultsList selectedMarker={selectedMarker} />}
+        {isSubmitted && <ResultsList selectedMarker={selectedIndex} />}
       </Grid>
 
       <Grid item xs={12} md={6} height="100%">
@@ -160,56 +150,7 @@ const Hero = ({ setClickStatus }) => {
           />
         )}
 
-        {isSubmitted && (
-          <MapContainer
-            center={[
-              !state.searchedCoords.lat ? 0 : Number(state.searchedCoords.lat),
-              !state.searchedCoords.lng ? 0 : Number(state.searchedCoords.lng),
-            ]}
-            zoom={13}
-            scrollWheelZoom={false}
-            style={{ width: '100%', height: '100%' }}
-          >
-            {/* the map wont render on its own when the coords change so we have to force that with changing the props in a child component */}
-            <MoveMap />
-
-            <TileLayer
-              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-            />
-            {state.results.length !== 0 &&
-              state.results.map((result, i) => {
-                if (!result.latitude || !result.longitude || !result.name)
-                  return '';
-
-                return (
-                  <Marker
-                    key={i}
-                    icon={GetIcon()}
-                    position={[
-                      Number(result.latitude),
-                      Number(result.longitude),
-                    ]}
-                    eventHandlers={{
-                      click: e => {
-                        console.log(e.latlng);
-                        setSelecteMarker(i);
-                      },
-                    }}
-                  >
-                    <Popup>
-                      <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          {result.name}
-                        </Typography>
-                        <Typography variant="p">{result.address}</Typography>
-                      </Box>
-                    </Popup>
-                  </Marker>
-                );
-              })}
-          </MapContainer>
-        )}
+        {isSubmitted && <Map setSelectedIndex={setSelectedIndex} />}
       </Grid>
     </Grid>
   );
