@@ -1,21 +1,8 @@
-import React, { useContext, useEffect, useState, createRef } from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Rating,
-  Paper,
-  Button,
-  InputBase,
-  Typography,
-  Skeleton,
-} from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Box, IconButton, TextField } from '@mui/material';
 import AppContext from '../../store/app-context';
 import { setLocation } from '../../store/actionCreators';
+import searchImg from '../../assets/search.svg';
 
 const SearchForm = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -35,36 +22,39 @@ const SearchForm = () => {
 
     setIsSearchTouched(true);
     dispatch(setLocation(searchInputValue));
+    setSearchInputValue('');
   };
 
   return (
-    <Paper
+    <Box
+      display="flex"
       component="form"
-      sx={{
-        display: 'flex',
-      }}
       onSubmit={searchClickHandler}
+      position="relative"
+      mx="auto"
+      width="80%"
     >
-      <InputBase
-        placeholder="Enter a city name..."
-        sx={{ px: 2, flex: 1 }}
+      <TextField
+        label="Enter a city name"
+        variant="standard"
+        sx={{ flex: 1 }}
         onChange={searchChangeHandler}
         onBlur={() => setIsSearchTouched(true)}
+        value={searchInputValue}
       />
-      <Button
+      <IconButton
         type="submit"
         sx={{
-          backgroundColor: 'customBlue.main',
-          color: 'white',
           p: 2,
-          '&:hover': {
-            backgroundColor: 'customBlue.dark',
-          },
+          position: 'absolute',
+          right: 0,
+          top: '40%',
+          transform: 'translateY(-50%)',
         }}
       >
-        Search
-      </Button>
-    </Paper>
+        <img src={searchImg} alt="" />
+      </IconButton>
+    </Box>
   );
 };
 

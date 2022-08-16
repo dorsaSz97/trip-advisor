@@ -6,18 +6,13 @@ import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
 import { setSelected } from '../../store/actionCreators';
+import { ZOOM_LEVEL, TILE_IMAGE } from '../../data/data';
 
 import MapMovement from '../MapMovement';
 
 import styles from './Map.module.css';
 
 //----------------- DATA -----------------
-const TILE_IMAGE = {
-  url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
-  attr: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-};
-
-const ZOOM_LEVEL = 13;
 
 const getMarkerIcon = () =>
   L.icon({
@@ -40,7 +35,7 @@ const Map = () => {
       className={styles.mapContainer}
     >
       {/* when the coords change, the map wont render on its own so we have to force that with making the child component re-render */}
-      <MapMovement zoom={ZOOM_LEVEL} />
+      <MapMovement />
 
       <TileLayer url={TILE_IMAGE.url} attribution={TILE_IMAGE.attr} />
       {state.results.length !== 0 &&

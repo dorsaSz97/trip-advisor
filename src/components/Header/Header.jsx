@@ -1,21 +1,14 @@
 import React, { useContext } from 'react';
-import { Box, AppBar, Toolbar, Typography, List, Drawer } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material';
 
 import AppContext from '../../store/app-context';
 import { setCategory } from '../../store/actionCreators';
-import useResults from '../../hooks/useResults';
 
-import hotelImg from '../../assets/home.svg';
-import restaurantImg from '../../assets/cutlery.svg';
-import attractionImg from '../../assets/pin.svg';
 import logoImg from '../../assets/logo.webp';
+import { NAV_LINKS } from '../../data/data';
 
-const navLinks = [
-  { text: 'hotels', category: 'hotels', logo: hotelImg },
-  { text: 'restaurants', category: 'restaurants', logo: restaurantImg },
-  { text: 'tourist sites', category: 'attractions', logo: attractionImg },
-];
+import styles from './Header.module.css';
 
 const HeaderBox = styled(Box)({
   position: 'fixed',
@@ -24,13 +17,12 @@ const HeaderBox = styled(Box)({
   width: '100%',
 });
 
-const Header = ({ isSubmitted }) => {
+const Header = () => {
   const [state, dispatch] = useContext(AppContext);
-  const { getResults, isError, isLoading } = useResults();
 
   return (
     <>
-      {!isSubmitted && (
+      {!state.isSubmitted && (
         <HeaderBox component="header">
           <AppBar
             component="nav"
@@ -46,7 +38,7 @@ const Header = ({ isSubmitted }) => {
                 <img
                   src={logoImg}
                   alt="Michelin logo"
-                  style={{ width: '30px', height: '30px' }}
+                  className={styles.logo}
                 />
                 <Typography
                   component="h1"
@@ -60,17 +52,14 @@ const Header = ({ isSubmitted }) => {
               <Box
                 component="ul"
                 display="flex"
-                sx={{ gap: 3, listStyle: 'none', fontWeight: 'bold' }}
+                fontWeight="bold"
+                sx={{ listStyle: 'none', gap: 3 }}
               >
-                {navLinks.map((item, i) => (
+                {NAV_LINKS.map((item, index) => (
                   <li
-                    key={i}
+                    key={index}
+                    className={styles.navLink}
                     onClick={() => dispatch(setCategory(item.category))}
-                    style={{
-                      cursor: 'pointer',
-                      textTransform: 'uppercase',
-                      fontSize: '0.9rem',
-                    }}
                   >
                     {item.text}
                   </li>
@@ -79,50 +68,6 @@ const Header = ({ isSubmitted }) => {
             </Toolbar>
           </AppBar>
         </HeaderBox>
-      )}
-
-      {isSubmitted && (
-        <Drawer variant="permanent" open={false}>
-          <List
-            component="nav"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '40px',
-            }}
-          >
-            <img
-              src={logoImg}
-              alt="Michelin logo"
-              style={{ width: '50px', height: '50px' }}
-            />
-            {navLinks.map(link => {
-              return (
-                <img
-                  key={link.category}
-                  src={link.logo}
-                  alt={link.category}
-                  style={{
-                    cursor: 'pointer',
-                    paddingInline: '1.2rem',
-                    paddingBlock: '0.8rem',
-                    border: '5px solid transparent',
-                    borderRightColor: `${
-                      state.category === link.category
-                        ? '#148BE9'
-                        : 'transparent'
-                    }`,
-                  }}
-                  onClick={() => {
-                    dispatch(setCategory(link.category));
-                    console.log(state.category);
-                  }}
-                />
-              );
-            })}
-          </List>
-        </Drawer>
       )}
     </>
   );

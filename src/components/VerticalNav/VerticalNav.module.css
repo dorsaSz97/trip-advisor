@@ -1,0 +1,20 @@
+.navIcon {
+  padding-inline: 1.2rem;
+  padding-block: 0.8rem;
+  cursor: pointer;
+  border: 5px solid transparent;
+  border-right-color: transparent;
+}
+
+.navActive {
+  padding-inline: 1.2rem;
+  padding-block: 0.8rem;
+  cursor: pointer;
+  border: 5px solid transparent;
+  border-right-color: #148be9;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}

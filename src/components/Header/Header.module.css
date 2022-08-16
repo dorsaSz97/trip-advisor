@@ -1,0 +1,10 @@
+.navLink {
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}

@@ -3,19 +3,23 @@ import { useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
+import { ZOOM_LEVEL } from '../../data/data';
 
-const MapMovement = ({ zoom }) => {
+const MapMovement = () => {
   const [state] = useContext(AppContext);
 
   const map = useMap();
 
   useEffect(() => {
     if (state.searchedCoords.lat && state.searchedCoords.lng) {
-      map.setView([state.searchedCoords.lat, state.searchedCoords.lng], zoom);
+      map.setView(
+        [state.searchedCoords.lat, state.searchedCoords.lng],
+        ZOOM_LEVEL
+      );
     } else {
-      map.setView([0, 0], zoom);
+      map.setView([0, 0], ZOOM_LEVEL);
     }
-  }, [state.searchedCoords, zoom, map]);
+  }, [state.searchedCoords, map]);
 
   return null;
 };

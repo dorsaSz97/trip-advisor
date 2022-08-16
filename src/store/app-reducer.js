@@ -11,12 +11,14 @@ import {
 const appReducer = (state, { type, payload }) => {
   switch (type) {
     case SET_CATEGORY:
-      return { ...state, category: payload, results: [] };
+      return { ...state, category: payload, results: [], selectedResult: 0 };
 
     case SET_LOCATION:
       return {
         ...state,
+        results: [],
         searchedLocation: payload,
+        selectedResult: 0,
       };
 
     case SET_COORDS:
@@ -49,6 +51,7 @@ const appReducer = (state, { type, payload }) => {
       return {
         ...state,
         isSubmitted: payload,
+        selectedResult: 0,
       };
 
     case SET_SELECTED:
