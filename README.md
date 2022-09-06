@@ -2,7 +2,7 @@
 
 This is a website like trip advisor, coded with Reactjs and Material UI (+axios and context API).
 
-You can search for restaurants, sites and hotels by entering a city name (MUST be a correct city name)
+You can search for restaurants, sites and hotels by entering a city name. (you MUST enter a correct city name and you need VPN if you live in certain places)
 
 ## Screenshots
 
