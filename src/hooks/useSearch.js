@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState, useContext } from 'react';
 import axios from 'axios';
 

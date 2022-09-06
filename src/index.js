@@ -8,6 +8,7 @@ import { AppContextProvider } from './store/app-context';
 
 import './index.css';
 
+// overwrite some styles
 const appTheme = createTheme({
   palette: {
     customBlack: {
