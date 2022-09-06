@@ -6,7 +6,7 @@ You can search for restaurants, sites and hotels by entering a city name (MUST b
 
 ## Screenshots
 
-<img src="" width="100%" height="100%"/>
+<img src="src/assets/sc.png" width="100%" height="100%"/>
 
 ## Get started
 
