@@ -1,4 +1,4 @@
-# Trip Advisor (not responsive)
+# Trip Advisor (the travel API used in this app isnt working anymore!!!!)
 
 This is a website like trip advisor, coded with Reactjs and Material UI (+axios and context API).
 
