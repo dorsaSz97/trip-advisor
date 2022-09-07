@@ -4,6 +4,8 @@ This is a website like trip advisor, coded with Reactjs and Material UI (+axios 
 
 You can search for restaurants, sites and hotels by entering a city name. (you MUST enter a correct city name and you need VPN if you live in certain places)
 
+(Here is a link to a video of this project since the api endpoint isnt working anymore: https://www.instagram.com/dorsa.webdev)
+
 ## Screenshots
 
 <img src="src/assets/sc.png" width="100%" height="100%"/>
