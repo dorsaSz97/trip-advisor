@@ -4,9 +4,9 @@ import { Box, List } from '@mui/material';
 import AppContext from '../../store/app-context';
 import { MAX_ITEMS } from '../../data/data';
 
-import SearchForm from '../SearchForm/SearchForm';
-import ResultItem from '../ResultItem/ResultItem';
-import ItemSkeleton from '../ItemSkeleton/ItemSkeleton';
+import SearchForm from '../SearchForm';
+import ResultItem from '../ResultItem';
+import ItemSkeleton from '../ItemSkeleton';
 
 const ResultsList = () => {
   const [state] = useContext(AppContext);
@@ -66,10 +66,10 @@ const ResultsList = () => {
                   return <ItemSkeleton key={index} />;
                 })
             : state.results.map((result, index) => {
-                if (!result.name) return ''; // ad results
                 return (
                   <ResultItem
-                    key={index}
+                    key={index} // items arent gonna be deleted so this is fine for now
+                    index={index}
                     refProp={elRefs[index]}
                     result={result}
                   />

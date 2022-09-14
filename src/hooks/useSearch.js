@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState, useContext } from 'react';
 import axios from 'axios';
 
 import AppContext from '../store/app-context';
-import { setCoords, setBounds } from '../store/actionCreators';
+import { setCoords, setBounds, setSubmit } from '../store/actionCreators';
 
 const useSearch = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -19,7 +18,7 @@ const useSearch = () => {
         return;
       }
 
-      console.log('during fetch');
+      console.log('fetching');
 
       const options = {
         method: 'GET',
@@ -37,30 +36,31 @@ const useSearch = () => {
       axios
         .request(options)
         .then(response => {
-          // console.log(response.data[0]);
           setIsLoading(false);
           setIsError(false);
 
-          dispatch(
-            setCoords(
-              Number(response.data[0].lat),
-              Number(response.data[0].lon)
-            )
-          );
+          const result = response.data[0];
+
+          dispatch(setCoords(Number(result.lat), Number(result.lon)));
+
           dispatch(
             setBounds(
-              response.data[0].boundingbox[0],
-              response.data[0].boundingbox[1],
-              response.data[0].boundingbox[2],
-              response.data[0].boundingbox[3]
+              result.boundingbox[0],
+              result.boundingbox[1],
+              result.boundingbox[2],
+              result.boundingbox[3]
             )
           );
         })
         .catch(_ => {
           setIsLoading(false);
           setIsError('Fetching coords from FWREVERSE API went wrong');
+
+          alert('this isnt a city name. enter a correct one please');
+          dispatch(setSubmit(false));
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.searchedLocation]
   ); //dispatch method is ensured by react to not change on each render
 

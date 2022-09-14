@@ -16,6 +16,7 @@ const MapMovement = () => {
         [state.searchedCoords.lat, state.searchedCoords.lng],
         ZOOM_LEVEL
       );
+      map.closePopup();
     } else {
       map.setView([0, 0], ZOOM_LEVEL);
     }

@@ -7,7 +7,7 @@ import Map from '../Map';
 import IntroForm from '../IntroForm';
 import IntroImage from '../IntroImage';
 import ResultsList from '../ResultsList';
-import VerticalNav from '../VerticalNav/VerticalNav';
+import VerticalNav from '../VerticalNav';
 
 const Hero = () => {
   const [state] = useContext(AppContext);

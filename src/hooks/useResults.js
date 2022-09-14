@@ -1,4 +1,4 @@
-import { useContext, useCallback, useState } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import axios from 'axios';
 
 import AppContext from '../store/app-context';
@@ -6,6 +6,7 @@ import { setResults } from '../store/actionCreators';
 
 const useResults = () => {
   const [state, dispatch] = useContext(AppContext);
+
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,34 +26,26 @@ const useResults = () => {
 
       const options = {
         method: 'GET',
-        url: `https://travel-advisor.p.rapidapi.com/${state.category}/list-in-boundary`,
-        params: {
-          bl_latitude: state.resultsBounds.p1,
-          tr_latitude: state.resultsBounds.p2,
-          bl_longitude: state.resultsBounds.p3,
-          tr_longitude: state.resultsBounds.p4,
-        },
-        headers: {
-          'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
-        },
+        url: `https://api.geoapify.com/v2/places?categories=${state.category}&filter=rect:${state.resultsBounds.p3},${state.resultsBounds.p1},${state.resultsBounds.p4},${state.resultsBounds.p2}&apiKey=${process.env.REACT_APP_GEOAPIFY_KEY}`,
         signal: signal,
       };
 
       axios
         .request(options)
         .then(response => {
-          console.log(response.data.data);
           setIsLoading(false);
           setIsError(false);
 
-          dispatch(setResults([...response.data.data]));
+          const results = [...response.data.features];
+
+          dispatch(setResults(results));
         })
         .catch(_ => {
           setIsLoading(false);
-          setIsError('Fetching results from TRIPADVISOR API went wrong');
+          setIsError('Fetching results from GEOAPIFY went wrong');
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.resultsBounds, state.category]
   );
 

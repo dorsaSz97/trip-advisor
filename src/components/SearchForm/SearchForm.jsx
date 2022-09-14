@@ -1,17 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Box, IconButton, TextField } from '@mui/material';
 import AppContext from '../../store/app-context';
 import { setLocation } from '../../store/actionCreators';
 import searchImg from '../../assets/search.svg';
 
 const SearchForm = () => {
-  const [state, dispatch] = useContext(AppContext);
+  const [, dispatch] = useContext(AppContext);
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [isSearchTouched, setIsSearchTouched] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const searchInputRef = useRef();
 
-  const isSearchValid = searchInputValue.trim().length !== 0;
-  const isSearchInvalid = !isSearchValid && isSearchTouched;
+  // const [isSearchTouched, setIsSearchTouched] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false);
+  // const isSearchValid = searchInputValue.trim().length !== 0;
+  // const isSearchInvalid = !isSearchValid && isSearchTouched;
 
   const searchChangeHandler = e => {
     setSearchInputValue(e.target.value);
@@ -20,9 +21,10 @@ const SearchForm = () => {
   const searchClickHandler = e => {
     e.preventDefault();
 
-    setIsSearchTouched(true);
     dispatch(setLocation(searchInputValue));
-    setSearchInputValue('');
+    searchInputRef.current.blur();
+    // setSearchInputValue('');
+    // setIsSearchTouched(true);
   };
 
   return (
@@ -39,8 +41,9 @@ const SearchForm = () => {
         variant="standard"
         sx={{ flex: 1 }}
         onChange={searchChangeHandler}
-        onBlur={() => setIsSearchTouched(true)}
+        // onBlur={() => setIsSearchTouched(true)}
         value={searchInputValue}
+        inputRef={searchInputRef}
       />
       <IconButton
         type="submit"

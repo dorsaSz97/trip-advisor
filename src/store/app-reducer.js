@@ -16,8 +16,8 @@ const appReducer = (state, { type, payload }) => {
     case SET_LOCATION:
       return {
         ...state,
-        results: [],
         searchedLocation: payload,
+        results: [],
         selectedResult: 0,
       };
 

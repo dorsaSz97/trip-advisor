@@ -23,7 +23,7 @@ const getMarkerIcon = () =>
 
 const Map = () => {
   const [state, dispatch] = useContext(AppContext);
-
+  
   return (
     <MapContainer
       center={[
@@ -40,13 +40,21 @@ const Map = () => {
       <TileLayer url={TILE_IMAGE.url} attribution={TILE_IMAGE.attr} />
       {state.results.length !== 0 &&
         state.results.map((result, index) => {
-          if (!result.latitude || !result.longitude || !result.name) return '';
+          if (
+            !result.properties.lat ||
+            !result.properties.lon ||
+            !result.properties.name
+          )
+            return '';
 
           return (
             <Marker
               key={index}
               icon={getMarkerIcon()}
-              position={[Number(result.latitude), Number(result.longitude)]}
+              position={[
+                Number(result.properties.lat),
+                Number(result.properties.lon),
+              ]}
               eventHandlers={{
                 click: () => {
                   dispatch(setSelected(index));
@@ -61,17 +69,17 @@ const Map = () => {
                     fontWeight="bold"
                     mb="0.8rem"
                   >
-                    {result.name}
+                    {result.properties.name}
                   </Typography>
                   <Typography component="p" fontSize="0.9rem">
-                    {result.address}
+                    {result.properties.formatted}
                   </Typography>
                   <Typography
                     component="p"
                     fontSize="0.9rem"
                     color="customBlue.main"
                   >
-                    {result.phone}
+                    {result.properties.datasource.raw.phone}
                   </Typography>
                 </Box>
               </Popup>

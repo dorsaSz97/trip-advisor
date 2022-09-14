@@ -3,27 +3,32 @@ import {
   ListItem,
   Card,
   CardActionArea,
-  CardMedia,
+  // CardMedia,
   CardContent,
   Box,
   Link,
-  Rating,
+  // Rating,
   Typography,
 } from '@mui/material';
 
 import AppContext from '../../store/app-context';
-import { setCoords } from '../../store/actionCreators';
+import { setCoords, setSelected } from '../../store/actionCreators';
 
-import StarIcon from '../Icons/StarIcon';
-import chefIcon from '../../assets/chef.svg';
+// import StarIcon from '../Icons/StarIcon';
+// import chefIcon from '../../assets/chef.svg';
 
-const ResultItem = ({ result, refProp }) => {
+const ResultItem = ({ result, index, refProp }) => {
   const [state, dispatch] = useContext(AppContext);
+
+  console.log(result.properties);
 
   return (
     <ListItem component="li" sx={{ p: 0 }} ref={refProp}>
       <Card
-        onClick={() => dispatch(setCoords(result.latitude, result.longitude))}
+        onClick={() => {
+          dispatch(setCoords(result.properties.lat, result.properties.lon));
+          dispatch(setSelected(index));
+        }}
         sx={{ width: '100%' }}
       >
         <CardActionArea
@@ -33,16 +38,16 @@ const ResultItem = ({ result, refProp }) => {
             p: 2,
           }}
         >
-          <CardMedia
+          {/* <CardMedia
             component="img"
-            src={result.photo.images.original.url}
-            alt={result.name}
+            src={image}
+            alt={result.properties.name}
             sx={{
               width: '200px',
               height: '130px',
               flexShrink: '0',
             }}
-          />
+          /> */}
 
           <CardContent
             sx={{
@@ -61,35 +66,38 @@ const ResultItem = ({ result, refProp }) => {
                 }}
               >
                 <Typography component="h3" fontSize="17px">
-                  {result.name}
+                  {result.properties.name}
                 </Typography>
-                <Rating
+                {/* <Rating
                   readOnly
-                  value={Math.floor(Number(result.rating))}
+                  value={Math.floor(Number(result.properties.rating))}
                   precision={1}
                   icon={<StarIcon type="full" />}
                   emptyIcon={<StarIcon type="empty" />}
-                />
+                /> */}
               </Box>
               <Typography component="p" color="#777" fontSize="15px">
-                {result.address}
+                {result.properties.formatted}
               </Typography>
-              <Box display="flex">
+              {/* <Box display="flex">
                 <img src={chefIcon} alt="Chef hat" />
                 <Typography component="p">
-                  {state.category === 'hotels' && result.subcategory_type_label}
-                  {state.category === 'restaurants' && result.cuisine[0].name}
-                  {state.category === 'attractions' && result.subtype[0].name}
+                  {state.category === 'accommodation.hotel' &&
+                    result.properties.categories[0]}
+                  {state.category === 'catering' &&
+                    result.properties.datasource.raw.cuisine}
+                  {state.category === 'tourism.attraction' &&
+                    result.properties.datasource.categories[0]}
                 </Typography>
-              </Box>
+              </Box> */}
               <Link
-                href={result.web_url}
+                href={result.properties.datasource.raw.website}
                 target="_blank"
                 underline="always"
                 rel="noreferrer"
                 sx={{ mt: '30px', display: 'inline-block' }}
               >
-                Read the reviews
+                Visit their website
               </Link>
             </Box>
           </CardContent>
