@@ -25,6 +25,7 @@ const appTheme = createTheme({
       primary: '#29293E',
     },
   },
+  
   typography: {
     h2: {
       fontWeight: 'bold',
