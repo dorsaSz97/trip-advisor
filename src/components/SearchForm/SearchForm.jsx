@@ -1,7 +1,9 @@
-import React, { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Box, IconButton, TextField } from '@mui/material';
+
 import AppContext from '../../store/app-context';
 import { setLocation } from '../../store/actionCreators';
+
 import searchImg from '../../assets/search.svg';
 
 const SearchForm = () => {

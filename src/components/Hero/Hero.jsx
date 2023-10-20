@@ -15,25 +15,35 @@ const Hero = () => {
   return (
     <>
       {!state.isSubmitted && (
-        // flex div container thats for responsive layouts (12) => container
+        // flex div container thats for responsive layouts (12) => container and item
         <Grid container width="100%" height="100vh">
-          <Grid md={6} position="relative">
+          <Grid item md={6} position="relative" height="100%">
             <IntroForm />
           </Grid>
-          <Grid md={6} xs={12} sx={{ opacity: { xs: '40%', md: '100%' } }}>
+          <Grid
+            item
+            md={6}
+            xs={12}
+            sx={{
+              opacity: { xs: '40%', md: '100%' },
+              height: '100%',
+              width: '100%',
+            }}
+          >
             <IntroImage />
           </Grid>
         </Grid>
       )}
 
       {state.isSubmitted && (
-        <Grid container width="100%" height="100vh">
+        <Grid container width="100%" height="100vh" flexWrap="nowrap">
           <Grid
             item
             md={6}
             position="relative"
+            display="flex"
             height="100%"
-            sx={{ display: 'flex' }}
+            flexGrow={1}
           >
             <VerticalNav />
 

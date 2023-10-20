@@ -38,6 +38,7 @@ const Map = () => {
       <MapMovement />
 
       <TileLayer url={TILE_IMAGE.url} attribution={TILE_IMAGE.attr} />
+
       {state.results.length !== 0 &&
         state.results.map((result, index) => {
           if (

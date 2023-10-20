@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, createRef } from 'react';
-import { Box, Grid, List } from '@mui/material';
+import { Box, List } from '@mui/material';
 
 import AppContext from '../../store/app-context';
 import { MAX_ITEMS } from '../../data';
@@ -17,7 +17,7 @@ const ResultsList = () => {
     // create ref for each result item
     const refs = Array(state.results.length)
       .fill()
-      .map((_, index) => elRefs[index] || createRef()); // create new ones for the first time and keep them for the rest of the renders
+      .map((_, index) => elRefs[index] || createRef()); // create new ones for the first time and keep them for the rest of the renders (we want to have access to each li DOM element)
 
     setElRefs(refs);
   }, [state.results]);
@@ -33,17 +33,14 @@ const ResultsList = () => {
     }
   }, [state.selectedResult, elRefs]);
 
-  // useEffect(() => {
-  //   getResults();
-  // }, [getResults]);
-
   return (
     <Box
       sx={{
         flex: { md: 1 },
         display: { md: 'flex', xs: `${!state.isMap ? 'flex' : 'none'}` },
+        overflow: 'hidden',
+        width: '100%',
       }}
-      overflow="hidden"
     >
       <Box
         mx="auto"
@@ -52,7 +49,7 @@ const ResultsList = () => {
         gap="50px"
         height="100%"
         width="100%"
-        sx={{ p: 4 }}
+        padding={'3rem'}
       >
         <SearchForm />
 
@@ -67,7 +64,7 @@ const ResultsList = () => {
         >
           {state.results.length === 0
             ? Array(MAX_ITEMS)
-                .fill()
+                .fill() // filed with undefined
                 .map((_, index) => {
                   return <ItemSkeleton key={index} />;
                 })
