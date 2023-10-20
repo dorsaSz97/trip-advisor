@@ -26,7 +26,7 @@ function App() {
 
     getResults(signal);
 
-    // stops the fetching when the component unmounts(removed) or before the useEffect happens for the next time (readded)
+    // stops the fetching when 1) the component unmounts(removed) because the elements wouldnt be there to be updated for example (if we're trying to change them) 2) before the useEffect happens for the next time (readded)
     // also, sometimes we request multiple fetches and because its a game of who is faster, the right result might not show up (all fetches stop after a result is shown) => we stop the previous one first
     return () => controller.abort();
   }, [getResults]);

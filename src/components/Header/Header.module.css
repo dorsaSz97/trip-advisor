@@ -1,5 +1,6 @@
 .navLink {
   text-transform: uppercase;
+  font-weight: bold;
   cursor: pointer;
   font-size: 0.9rem;
 }
