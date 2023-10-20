@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .leaflet-popup {
   bottom: 15px !important;
 }

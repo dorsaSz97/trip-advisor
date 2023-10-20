@@ -15,17 +15,12 @@ const Hero = () => {
   return (
     <>
       {!state.isSubmitted && (
+        // flex div container thats for responsive layouts (12) => container
         <Grid container width="100%" height="100vh">
-          <Grid item md={6} position="relative" height="100%">
+          <Grid md={6} position="relative">
             <IntroForm />
           </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-            height="100%"
-            sx={{ opacity: { xs: '40%', md: '100%' } }}
-          >
+          <Grid md={6} xs={12} sx={{ opacity: { xs: '40%', md: '100%' } }}>
             <IntroImage />
           </Grid>
         </Grid>

@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Box, Paper, InputBase, Button, Typography } from '@mui/material';
-import ScrollReveal from 'scrollreveal';
 
 import AppContext from '../../store/app-context';
 import { setSubmit, setLocation } from '../../store/actionCreators';
@@ -31,27 +30,17 @@ const IntroForm = () => {
     }
   };
 
-  // ScrollReveal().reveal('.searchForm', {
-  //   origin: 'left',
-  //   distance: '150%',
-  //   duration: 1000,
-  //   opacity: 0,
-  //   delay: 500,
-  // });
-
   return (
     <Box
-      className="searchForm"
       display="flex"
       flexDirection="column"
-      gap="10px"
       position="absolute"
+      left="30%"
       top="50%"
-      zIndex="1"
+      zIndex="2"
       sx={{
         transform: 'translateY(-50%)',
         width: { xs: '90vw', md: '90%' },
-        left: { md: '30%' },
         marginX: { xs: '5vw', md: 'unset' },
       }}
     >
@@ -60,6 +49,7 @@ const IntroForm = () => {
         variant="h2"
         sx={{
           maxWidth: '14ch',
+          mb: '13px',
         }}
       >
         Where do you want to
@@ -74,12 +64,13 @@ const IntroForm = () => {
         ?
       </Typography>
 
+      {/* shadowed div */}
       <Paper
         component="form"
-        onSubmit={formSubmitHandler}
         sx={{
           display: 'flex',
         }}
+        onSubmit={formSubmitHandler}
       >
         <InputBase
           placeholder="Enter a city name..."
@@ -103,7 +94,12 @@ const IntroForm = () => {
         </Button>
       </Paper>
       {isSearchInvalid && (
-        <Typography component="p" variant="body1" color="customRed.main">
+        <Typography
+          component="p"
+          variant="body1"
+          color="customRed.main"
+          mt={'10px'}
+        >
           You haven't entered anything! Please enter a city name :)
         </Typography>
       )}
