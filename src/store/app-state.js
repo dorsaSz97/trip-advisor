@@ -12,6 +12,8 @@ const initialAppState = {
   isSubmitted: false,
 
   selectedResult: null,
+
+  isMap: false,
 };
 
 export default initialAppState;

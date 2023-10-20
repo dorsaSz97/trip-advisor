@@ -5,7 +5,7 @@ import ScrollReveal from 'scrollreveal';
 import AppContext from '../../store/app-context';
 import { setSubmit, setLocation } from '../../store/actionCreators';
 
-import { DETAILS } from '../../data/data';
+import { DETAILS } from '../../data';
 
 const IntroForm = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -44,13 +44,16 @@ const IntroForm = () => {
       className="searchForm"
       display="flex"
       flexDirection="column"
-      gap="3"
+      gap="10px"
       position="absolute"
-      left="30%"
       top="50%"
-      width="90%"
       zIndex="1"
-      sx={{ transform: 'translateY(-50%)' }}
+      sx={{
+        transform: 'translateY(-50%)',
+        width: { xs: '90vw', md: '90%' },
+        left: { md: '30%' },
+        marginX: { xs: '5vw', md: 'unset' },
+      }}
     >
       <Typography
         component="h2"
@@ -82,6 +85,7 @@ const IntroForm = () => {
           placeholder="Enter a city name..."
           onChange={searchChangeHandler}
           onBlur={() => setSearchTouched(true)}
+          onFocus={() => setSearchTouched(false)}
           sx={{ px: 2, flex: 1 }}
         />
         <Button
@@ -100,7 +104,7 @@ const IntroForm = () => {
       </Paper>
       {isSearchInvalid && (
         <Typography component="p" variant="body1" color="customRed.main">
-          You havent entered anything! Please enter a city name :)
+          You haven't entered anything! Please enter a city name :)
         </Typography>
       )}
     </Box>

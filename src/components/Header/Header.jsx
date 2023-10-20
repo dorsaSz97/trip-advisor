@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
-import { Box, AppBar, Toolbar, Typography } from '@mui/material';
+import { useContext, useState } from 'react';
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  MenuItem,
+  Menu,
+} from '@mui/material';
 import { styled } from '@mui/material';
 
 import AppContext from '../../store/app-context';
 import { setCategory } from '../../store/actionCreators';
 
 import logoImg from '../../assets/logo.webp';
-import { NAV_LINKS } from '../../data/data';
-
+import { NAV_LINKS } from '../../data';
 import styles from './Header.module.css';
 
 const HeaderBox = styled(Box)({
@@ -20,10 +27,19 @@ const HeaderBox = styled(Box)({
 const Header = () => {
   const [state, dispatch] = useContext(AppContext);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       {!state.isSubmitted && (
-        <HeaderBox component="header">
+        <HeaderBox component="header" zIndex={1000}>
           <AppBar
             component="nav"
             sx={{
@@ -34,7 +50,7 @@ const Header = () => {
             }}
           >
             <Toolbar>
-              <Box flexGrow="1" display="flex" alignItems="center" gap="5px">
+              <Box flex="1" display="flex" alignItems="center" gap="5px">
                 <img
                   src={logoImg}
                   alt="Michelin logo"
@@ -51,9 +67,13 @@ const Header = () => {
               </Box>
               <Box
                 component="ul"
-                display="flex"
                 fontWeight="bold"
-                sx={{ listStyle: 'none', gap: 3 }}
+                sx={{
+                  listStyle: 'none',
+                  gap: 3,
+                  display: { xs: 'none', md: 'flex' },
+                  // flexDirection: { xs: 'column', md: 'row' },
+                }}
               >
                 {NAV_LINKS.map((item, index) => (
                   <li
@@ -65,6 +85,40 @@ const Header = () => {
                   </li>
                 ))}
               </Box>
+              <Button
+                color="customBlack"
+                onClick={handleClick}
+                sx={{
+                  display: { md: 'none', xs: 'flex' },
+                }}
+              >
+                Categories
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                {NAV_LINKS.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      dispatch(setCategory(item.category));
+                      handleClose();
+                    }}
+                  >
+                    {item.text}
+                  </MenuItem>
+                ))}
+              </Menu>
             </Toolbar>
           </AppBar>
         </HeaderBox>

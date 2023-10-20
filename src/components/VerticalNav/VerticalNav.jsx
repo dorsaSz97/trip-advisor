@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Drawer, List } from '@mui/material';
+import { Button, Drawer, List, Typography } from '@mui/material';
 
 import AppContext from '../../store/app-context';
-import { setCategory } from '../../store/actionCreators';
-import { NAV_LINKS } from '../../data/data';
+import { setCategory, setMap } from '../../store/actionCreators';
+import { NAV_LINKS } from '../../data';
 
 import logoImg from '../../assets/logo.webp';
 
@@ -11,6 +11,7 @@ import styles from './VerticalNav.module.css';
 
 const VerticalNav = () => {
   const [state, dispatch] = useContext(AppContext);
+  console.log(state.isMap);
 
   return (
     <Drawer variant="permanent" open={false} sx={{ width: '66px' }}>
@@ -35,11 +36,22 @@ const VerticalNav = () => {
                   ? styles.navIcon
                   : styles.navActive
               }
-              onClick={() => dispatch(setCategory(link.category))}
+              onClick={() => {
+                dispatch(setCategory(link.category));
+                dispatch(setMap(false));
+              }}
             />
           );
         })}
       </List>
+      <Button
+        color="customBlue"
+        onClick={() => dispatch(setMap(!state.isMap))}
+        variant="text"
+        sx={{ mt: 'auto', textAlign: 'center', p: 2, display: { md: 'none' } }}
+      >
+        Map
+      </Button>
     </Drawer>
   );
 };

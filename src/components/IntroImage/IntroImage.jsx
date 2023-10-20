@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import AppContext from '../../store/app-context';
 
-import { DETAILS } from '../../data/data';
+import { DETAILS } from '../../data';
 
 import styles from './IntroImage.module.css';
 

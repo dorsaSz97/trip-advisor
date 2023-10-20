@@ -3,7 +3,7 @@ import { useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
-import { ZOOM_LEVEL } from '../../data/data';
+import { ZOOM_LEVEL } from '../../data';
 
 const MapMovement = () => {
   const [state] = useContext(AppContext);

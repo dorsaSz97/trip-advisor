@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 import AppContext from '../../store/app-context';
-import { setCoords, setSelected } from '../../store/actionCreators';
+import { setCoords, setMap, setSelected } from '../../store/actionCreators';
 
 // import StarIcon from '../Icons/StarIcon';
 // import chefIcon from '../../assets/chef.svg';
@@ -20,14 +20,13 @@ import { setCoords, setSelected } from '../../store/actionCreators';
 const ResultItem = ({ result, index, refProp }) => {
   const [state, dispatch] = useContext(AppContext);
 
-  console.log(result.properties);
-
   return (
     <ListItem component="li" sx={{ p: 0 }} ref={refProp}>
       <Card
         onClick={() => {
           dispatch(setCoords(result.properties.lat, result.properties.lon));
           dispatch(setSelected(index));
+          dispatch(setMap(true));
         }}
         sx={{ width: '100%' }}
       >

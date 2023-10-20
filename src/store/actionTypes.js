@@ -5,3 +5,4 @@ export const SET_COORDS = 'setCoords';
 export const SET_BOUNDS = 'setBounds';
 export const SET_SUBMIT = 'setSubmit';
 export const SET_SELECTED = 'setSelected';
+export const SET_MAP = 'setMap';

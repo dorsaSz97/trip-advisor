@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Grid } from '@mui/material';
 
 import AppContext from '../../store/app-context';
@@ -19,7 +19,13 @@ const Hero = () => {
           <Grid item md={6} position="relative" height="100%">
             <IntroForm />
           </Grid>
-          <Grid item md={6} height="100%">
+          <Grid
+            item
+            md={6}
+            xs={12}
+            height="100%"
+            sx={{ opacity: { xs: '40%', md: '100%' } }}
+          >
             <IntroImage />
           </Grid>
         </Grid>
@@ -35,9 +41,11 @@ const Hero = () => {
             sx={{ display: 'flex' }}
           >
             <VerticalNav />
+
             <ResultsList />
           </Grid>
-          <Grid item md={6} height="100%">
+
+          <Grid item md={6} xs={state.isMap ? 12 : 0} height="100%">
             <Map />
           </Grid>
         </Grid>

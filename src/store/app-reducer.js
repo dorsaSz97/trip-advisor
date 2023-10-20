@@ -6,6 +6,7 @@ import {
   SET_BOUNDS,
   SET_SUBMIT,
   SET_SELECTED,
+  SET_MAP,
 } from './actionTypes';
 
 const appReducer = (state, { type, payload }) => {
@@ -52,6 +53,12 @@ const appReducer = (state, { type, payload }) => {
         ...state,
         isSubmitted: payload,
         selectedResult: 0,
+      };
+
+    case SET_MAP:
+      return {
+        ...state,
+        isMap: payload,
       };
 
     case SET_SELECTED:

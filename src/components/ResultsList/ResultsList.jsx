@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, createRef } from 'react';
-import { Box, List } from '@mui/material';
+import { Box, Grid, List } from '@mui/material';
 
 import AppContext from '../../store/app-context';
-import { MAX_ITEMS } from '../../data/data';
+import { MAX_ITEMS } from '../../data';
 
 import SearchForm from '../SearchForm';
 import ResultItem from '../ResultItem';
@@ -38,7 +38,13 @@ const ResultsList = () => {
   // }, [getResults]);
 
   return (
-    <Box flex="1" height="100%" overflow="hidden">
+    <Box
+      sx={{
+        flex: { md: 1 },
+        display: { md: 'flex', xs: `${!state.isMap ? 'flex' : 'none'}` },
+      }}
+      overflow="hidden"
+    >
       <Box
         mx="auto"
         display="flex"

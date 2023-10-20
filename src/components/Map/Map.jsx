@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 
 import AppContext from '../../store/app-context';
 import { setSelected } from '../../store/actionCreators';
-import { ZOOM_LEVEL, TILE_IMAGE } from '../../data/data';
+import { ZOOM_LEVEL, TILE_IMAGE } from '../../data';
 
 import MapMovement from '../MapMovement';
 
@@ -23,7 +23,7 @@ const getMarkerIcon = () =>
 
 const Map = () => {
   const [state, dispatch] = useContext(AppContext);
-  
+
   return (
     <MapContainer
       center={[
