@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 
 import useSearch from './hooks/useSearch';
@@ -26,6 +26,8 @@ function App() {
 
     getResults(signal);
 
+    // stops the fetching when the component unmounts(removed) or before the useEffect happens for the next time (readded)
+    // also, sometimes we request multiple fetches and because its a game of who is faster, the right result might not show up (all fetches stop after a result is shown) => we stop the previous one first
     return () => controller.abort();
   }, [getResults]);
 

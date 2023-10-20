@@ -33,11 +33,11 @@ export const setSubmit = isSubmitted => ({
   type: SET_SUBMIT,
   payload: isSubmitted,
 });
-export const setMap = isMap => ({
-  type: SET_MAP,
-  payload: isMap,
-});
 export const setSelected = index => ({
   type: SET_SELECTED,
   payload: index,
+});
+export const setMap = isMap => ({
+  type: SET_MAP,
+  payload: isMap,
 });

@@ -6,9 +6,11 @@ import { setCoords, setBounds, setSubmit } from '../store/actionCreators';
 
 const useSearch = () => {
   const [state, dispatch] = useContext(AppContext);
+
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // preventing this function to be recreated every time the state changes (only when the search term does), that would cause a loop in the App file's useEffect
   const getCoords = useCallback(
     signal => {
       setIsLoading(true);
@@ -17,20 +19,17 @@ const useSearch = () => {
       if (!state.searchedLocation) {
         return;
       }
-
-      console.log('fetching');
-
       const options = {
         method: 'GET',
         url: 'https://forward-reverse-geocoding.p.rapidapi.com/v1/forward',
         params: {
-          city: state.searchedLocation.toLowerCase(),
+          city: state.searchedLocation.toLowerCase().trim(),
         },
         headers: {
           'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
           'X-RapidAPI-Host': 'forward-reverse-geocoding.p.rapidapi.com',
         },
-        signal: signal,
+        signal,
       };
 
       axios
@@ -56,7 +55,7 @@ const useSearch = () => {
           setIsLoading(false);
           setIsError('Fetching coords from FWREVERSE API went wrong');
 
-          alert('this isnt a city name. enter a correct one please');
+          alert('Couldnt get any information! Try again...');
           dispatch(setSubmit(false));
         });
     },

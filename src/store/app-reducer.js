@@ -55,16 +55,16 @@ const appReducer = (state, { type, payload }) => {
         selectedResult: 0,
       };
 
-    case SET_MAP:
-      return {
-        ...state,
-        isMap: payload,
-      };
-
     case SET_SELECTED:
       return {
         ...state,
         selectedResult: payload,
+      };
+
+    case SET_MAP:
+      return {
+        ...state,
+        isMap: payload,
       };
 
     default:

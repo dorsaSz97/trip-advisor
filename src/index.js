@@ -1,10 +1,9 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createTheme, ThemeProvider } from '@mui/material';
 
-import App from './App';
-
 import { AppContextProvider } from './store/app-context';
+
+import App from './App';
 
 import './index.css';
 
@@ -25,7 +24,7 @@ const appTheme = createTheme({
       primary: '#29293E',
     },
   },
-  
+
   typography: {
     h2: {
       fontWeight: 'bold',

@@ -10,6 +10,7 @@ const useResults = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // preventing this function to be recreated every time the state changes (only when the category/bounds does), that would cause a loop in the App file's useEffect
   const getResults = useCallback(
     signal => {
       setIsLoading(true);
