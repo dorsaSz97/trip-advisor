@@ -1,4 +1,4 @@
-# Voyage Advisor
+# Trip Advisor
 
 This Trip Advisor-like app is coded with ReactJS + Material UI.
 
