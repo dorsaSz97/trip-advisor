@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { Box, Paper, InputBase, Button, Typography } from '@mui/material';
 
 import AppContext from '../../store/app-context';
-import { setSubmit, setLocation } from '../../store/actionCreators';
+import { setLocation } from '../../store/actionCreators';
 
 import { DETAILS } from '../../data';
 

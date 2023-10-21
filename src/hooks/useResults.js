@@ -15,32 +15,17 @@ const useResults = () => {
     signal => {
       setIsLoading(true);
       setIsError(false);
-      console.log(state.resultsBounds);
 
-      console.log('p1:', state.resultsBounds.p1);
-      console.log('p2:', state.resultsBounds.p2);
-      console.log('p3:', state.resultsBounds.p3);
-      console.log('p4:', state.resultsBounds.p4);
-      const isEmptyObject = Object.keys(state.resultsBounds).length === 0;
-
-      if (isEmptyObject) {
-        // state.resultsBounds is an empty object
+      if (
+        !state.resultsBounds.p1 ||
+        !state.resultsBounds.p2 ||
+        !state.resultsBounds.p3 ||
+        !state.resultsBounds.p4
+      ) {
         setIsError(true);
-        setIsLoading(false); // Ensure isLoading is set to false when there's an error
+        setIsLoading(false);
         return;
       }
-
-      // if (
-      //   !state.resultsBounds.p1 ||
-      //   !state.resultsBounds.p2 ||
-      //   !state.resultsBounds.p3 ||
-      //   !state.resultsBounds.p4
-      // ) {
-      //   console.log('here');
-      //   setIsLoading(false);
-      //   setIsError(true);
-      //   return;
-      // }
 
       const options = {
         method: 'GET',
@@ -52,8 +37,6 @@ const useResults = () => {
         .request(options)
         .then(response => {
           const results = [...response.data.features];
-
-          console.log(results);
 
           dispatch(setResults(results));
 

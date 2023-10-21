@@ -20,9 +20,9 @@ const useSearch = () => {
     signal => {
       setIsLoading(true);
       setIsError(false);
-      console.log(state.searchedLocation);
 
       if (!state.searchedLocation) {
+        setIsLoading(false);
         setIsError(true);
         return;
       }
@@ -49,7 +49,6 @@ const useSearch = () => {
             throw new Error();
           }
 
-          console.log('im moving on');
           dispatch(setSubmit(true));
           dispatch(setCoords(Number(result.lat), Number(result.lon)));
 
@@ -68,9 +67,10 @@ const useSearch = () => {
         .catch(_ => {
           setIsLoading(false);
           setIsError('Fetching coords from FWREVERSE API went wrong');
+
           alert('Couldnt get any information! Try again...');
           dispatch(setSubmit(state.isSubmitted));
-          // dispatch(setLocation(''));
+          dispatch(setLocation(''));
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

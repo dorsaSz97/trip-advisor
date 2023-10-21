@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, createRef } from 'react';
+import { useContext, useEffect, useState, createRef } from 'react';
 import { Box, List, Typography } from '@mui/material';
 
 import AppContext from '../../store/app-context';
@@ -8,15 +8,11 @@ import SearchForm from '../SearchForm';
 import ResultItem from '../ResultItem';
 import ItemSkeleton from '../ItemSkeleton';
 
-const ResultsList = () => {
-  const [state] = useContext(AppContext);
+const ResultsList = ({ resultError }) => {
+  // Q&A:why cant I use isError in the useResults hook directly here?
+  // because we are using this custom hook in the parent component as well, we have to respect the rule of 'data flow happens from parent to the child' and should happen through props (calling a custom hook in siblings is valid but not in parent/child)
 
-  // TODO:why cant i use the isloading and iserror in the hooks
-  const isError =
-    !state.resultsBounds.p1 ||
-    !state.resultsBounds.p2 ||
-    !state.resultsBounds.p3 ||
-    !state.resultsBounds.p4;
+  const [state] = useContext(AppContext);
 
   const [elRefs, setElRefs] = useState([]);
 
@@ -70,14 +66,14 @@ const ResultsList = () => {
           }}
         >
           {state.results.length === 0 &&
-            !isError &&
+            !resultError &&
             Array(MAX_ITEMS)
               .fill() // filed with undefined
               .map((_, index) => {
                 return <ItemSkeleton key={index} />;
               })}
           {state.results.length !== 0 &&
-            isError &&
+            !resultError &&
             state.results.map((result, index) => {
               return (
                 <ResultItem
@@ -88,7 +84,7 @@ const ResultsList = () => {
                 />
               );
             })}
-          {state.results.length === 0 && isError && (
+          {state.results.length === 0 && resultError && (
             <Typography
               component="p"
               variant="body1"

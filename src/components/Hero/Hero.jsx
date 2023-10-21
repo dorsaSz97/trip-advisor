@@ -9,7 +9,7 @@ import IntroImage from '../IntroImage';
 import ResultsList from '../ResultsList';
 import VerticalNav from '../VerticalNav';
 
-const Hero = () => {
+const Hero = ({ resultError }) => {
   const [state] = useContext(AppContext);
 
   return (
@@ -47,7 +47,7 @@ const Hero = () => {
           >
             <VerticalNav />
 
-            <ResultsList />
+            <ResultsList resultError={resultError} />
           </Grid>
 
           <Grid item md={6} xs={state.isMap ? 12 : 0} height="100%">

@@ -9,7 +9,7 @@ import Hero from './components/Hero';
 
 function App() {
   const { getCoords } = useSearch();
-  const { getResults } = useResults();
+  const { getResults, isError: resultError } = useResults();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,7 +38,7 @@ function App() {
 
       <Header />
 
-      <Hero />
+      <Hero resultError={resultError} />
     </>
   );
 }
