@@ -1,12 +1,18 @@
-# Trip Advisor 
+# Voyage Advisor
 
-This is a website like trip advisor, coded with Reactjs and Material UI (+axios and context API).
+This Trip Advisor-like app is coded with ReactJS + Material UI.
 
-You can search for restaurants, sites and hotels by entering a city name. (you MUST enter a correct city name and you need VPN if you live in certain places)
+## You can:
+
+- Select a category (restaurants, hotels, and attractions)
+- Search for a city to get its corresponding places
+- View the results both on a map and a list
+- Interact with the map
 
 ## Screenshots
 
-<img src="src/assets/sc.png" width="100%" height="100%"/>
+<img src="src/assets/sc1.png" width="100%" height="100%"/>
+<img src="src/assets/sc2.png" width="100%" height="100%"/>
 
 ## Get started
 
@@ -24,6 +30,5 @@ npm start
 
 ## Built with
 
-- ReactJS
+- ReactJS (context API + Axios).
 - Material UI
-- Axios
