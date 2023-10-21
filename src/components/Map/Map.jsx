@@ -92,3 +92,5 @@ const Map = () => {
 };
 
 export default Map;
+
+// Q&A:: why is there a problem with clicking on markers when on mobile size (they go to left) but after resizing a little things would be fine, if the isMap is set to false at first

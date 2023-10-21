@@ -108,7 +108,7 @@ const MobileMenu = () => {
         }}
         transformOrigin={{
           vertical: 'top',
-          // horizontal: 'left',
+          horizontal: 'left',
         }}
         sx={{
           zIndex: 1000000,

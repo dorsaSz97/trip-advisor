@@ -21,7 +21,7 @@ const initialAppState = {
   selectedResult: null,
 
   // toggle map/result view in mobile size
-  isMap: false,
+  isMap: true,
 };
 
 export default initialAppState;

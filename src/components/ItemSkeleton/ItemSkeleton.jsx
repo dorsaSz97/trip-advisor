@@ -19,3 +19,5 @@ const ItemSkeleton = () => {
 };
 
 export default ItemSkeleton;
+
+// TODO: different skeleton for mobile
