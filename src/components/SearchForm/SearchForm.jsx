@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField, Typography } from '@mui/material';
 
 import AppContext from '../../store/app-context';
 import { setLocation } from '../../store/actionCreators';
@@ -7,14 +7,17 @@ import { setLocation } from '../../store/actionCreators';
 import searchImg from '../../assets/search.svg';
 
 const SearchForm = () => {
-  const [, dispatch] = useContext(AppContext);
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const [state, dispatch] = useContext(AppContext);
+
+  const [searchInputValue, setSearchInputValue] = useState(
+    state.searchedLocation
+  );
   const searchInputRef = useRef();
 
-  // const [isSearchTouched, setIsSearchTouched] = useState(false);
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-  // const isSearchValid = searchInputValue.trim().length !== 0;
-  // const isSearchInvalid = !isSearchValid && isSearchTouched;
+  const [isSearchTouched, setSearchTouched] = useState(false);
+
+  const isSearchValid = searchInputValue.trim().length !== 0;
+  const isSearchInvalid = !isSearchValid && isSearchTouched;
 
   const searchChangeHandler = e => {
     setSearchInputValue(e.target.value);
@@ -23,10 +26,12 @@ const SearchForm = () => {
   const searchClickHandler = e => {
     e.preventDefault();
 
-    dispatch(setLocation(searchInputValue));
-    searchInputRef.current.blur();
-    // setSearchInputValue('');
-    // setIsSearchTouched(true);
+    setSearchTouched(true);
+
+    if (isSearchValid) {
+      dispatch(setLocation(searchInputValue));
+      searchInputRef.current.blur();
+    }
   };
 
   return (
@@ -47,6 +52,16 @@ const SearchForm = () => {
         value={searchInputValue}
         inputRef={searchInputRef}
       />
+      {isSearchInvalid && (
+        <Typography
+          component="p"
+          variant="body1"
+          color="customRed.main"
+          sx={{ position: 'absolute', top: '100%', left: '0' }}
+        >
+          You haven't entered anything! Please enter a city name :)
+        </Typography>
+      )}
       <IconButton
         type="submit"
         sx={{
@@ -64,3 +79,5 @@ const SearchForm = () => {
 };
 
 export default SearchForm;
+
+// TODO: add validation like the other form

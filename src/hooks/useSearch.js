@@ -2,7 +2,12 @@ import { useCallback, useState, useContext } from 'react';
 import axios from 'axios';
 
 import AppContext from '../store/app-context';
-import { setCoords, setBounds, setSubmit } from '../store/actionCreators';
+import {
+  setCoords,
+  setBounds,
+  setSubmit,
+  setLocation,
+} from '../store/actionCreators';
 
 const useSearch = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -15,10 +20,13 @@ const useSearch = () => {
     signal => {
       setIsLoading(true);
       setIsError(false);
+      console.log(state.searchedLocation);
 
       if (!state.searchedLocation) {
+        setIsError(true);
         return;
       }
+
       const options = {
         method: 'GET',
         url: 'https://forward-reverse-geocoding.p.rapidapi.com/v1/forward',
@@ -35,11 +43,14 @@ const useSearch = () => {
       axios
         .request(options)
         .then(response => {
-          setIsLoading(false);
-          setIsError(false);
-
           const result = response.data[0];
 
+          if (!result) {
+            throw new Error();
+          }
+
+          console.log('im moving on');
+          dispatch(setSubmit(true));
           dispatch(setCoords(Number(result.lat), Number(result.lon)));
 
           dispatch(
@@ -50,13 +61,16 @@ const useSearch = () => {
               result.boundingbox[3]
             )
           );
+
+          setIsLoading(false);
+          setIsError(false);
         })
         .catch(_ => {
           setIsLoading(false);
           setIsError('Fetching coords from FWREVERSE API went wrong');
-
           alert('Couldnt get any information! Try again...');
-          dispatch(setSubmit(false));
+          dispatch(setSubmit(state.isSubmitted));
+          // dispatch(setLocation(''));
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

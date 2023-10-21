@@ -20,6 +20,8 @@ const appReducer = (state, { type, payload }) => {
         searchedLocation: payload,
         results: [],
         selectedResult: 0,
+        resultsBounds: {},
+        searchedCoords: {},
       };
 
     case SET_COORDS:

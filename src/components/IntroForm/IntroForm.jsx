@@ -10,7 +10,9 @@ const IntroForm = () => {
   const [state, dispatch] = useContext(AppContext);
 
   const [isSearchTouched, setSearchTouched] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState(
+    state.searchedLocation
+  );
 
   const isSearchValid = searchInputValue.trim().length !== 0;
   const isSearchInvalid = !isSearchValid && isSearchTouched;
@@ -25,7 +27,6 @@ const IntroForm = () => {
     setSearchTouched(true);
 
     if (isSearchValid) {
-      dispatch(setSubmit(true));
       dispatch(setLocation(searchInputValue));
     }
   };

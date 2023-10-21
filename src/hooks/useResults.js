@@ -15,15 +15,32 @@ const useResults = () => {
     signal => {
       setIsLoading(true);
       setIsError(false);
+      console.log(state.resultsBounds);
 
-      if (
-        !state.resultsBounds.p1 ||
-        !state.resultsBounds.p2 ||
-        !state.resultsBounds.p3 ||
-        !state.resultsBounds.p4
-      ) {
+      console.log('p1:', state.resultsBounds.p1);
+      console.log('p2:', state.resultsBounds.p2);
+      console.log('p3:', state.resultsBounds.p3);
+      console.log('p4:', state.resultsBounds.p4);
+      const isEmptyObject = Object.keys(state.resultsBounds).length === 0;
+
+      if (isEmptyObject) {
+        // state.resultsBounds is an empty object
+        setIsError(true);
+        setIsLoading(false); // Ensure isLoading is set to false when there's an error
         return;
       }
+
+      // if (
+      //   !state.resultsBounds.p1 ||
+      //   !state.resultsBounds.p2 ||
+      //   !state.resultsBounds.p3 ||
+      //   !state.resultsBounds.p4
+      // ) {
+      //   console.log('here');
+      //   setIsLoading(false);
+      //   setIsError(true);
+      //   return;
+      // }
 
       const options = {
         method: 'GET',
@@ -34,12 +51,14 @@ const useResults = () => {
       axios
         .request(options)
         .then(response => {
-          setIsLoading(false);
-          setIsError(false);
-
           const results = [...response.data.features];
 
+          console.log(results);
+
           dispatch(setResults(results));
+
+          setIsLoading(false);
+          setIsError(false);
         })
         .catch(_ => {
           setIsLoading(false);

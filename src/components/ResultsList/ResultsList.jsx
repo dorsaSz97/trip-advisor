@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, createRef } from 'react';
-import { Box, List } from '@mui/material';
+import { Box, List, Typography } from '@mui/material';
 
 import AppContext from '../../store/app-context';
 import { MAX_ITEMS } from '../../data';
@@ -10,6 +10,13 @@ import ItemSkeleton from '../ItemSkeleton';
 
 const ResultsList = () => {
   const [state] = useContext(AppContext);
+
+  // TODO:why cant i use the isloading and iserror in the hooks
+  const isError =
+    !state.resultsBounds.p1 ||
+    !state.resultsBounds.p2 ||
+    !state.resultsBounds.p3 ||
+    !state.resultsBounds.p4;
 
   const [elRefs, setElRefs] = useState([]);
 
@@ -62,22 +69,35 @@ const ResultsList = () => {
             gap: '30px',
           }}
         >
-          {state.results.length === 0
-            ? Array(MAX_ITEMS)
-                .fill() // filed with undefined
-                .map((_, index) => {
-                  return <ItemSkeleton key={index} />;
-                })
-            : state.results.map((result, index) => {
-                return (
-                  <ResultItem
-                    key={index} // items arent gonna be deleted so this is fine for now
-                    index={index}
-                    refProp={elRefs[index]}
-                    result={result}
-                  />
-                );
+          {state.results.length === 0 &&
+            !isError &&
+            Array(MAX_ITEMS)
+              .fill() // filed with undefined
+              .map((_, index) => {
+                return <ItemSkeleton key={index} />;
               })}
+          {state.results.length !== 0 &&
+            isError &&
+            state.results.map((result, index) => {
+              return (
+                <ResultItem
+                  key={index} // items arent gonna be deleted so this is fine for now
+                  index={index}
+                  refProp={elRefs[index]}
+                  result={result}
+                />
+              );
+            })}
+          {state.results.length === 0 && isError && (
+            <Typography
+              component="p"
+              variant="body1"
+              color="customRed.main"
+              sx={{ textAlign: 'center' }}
+            >
+              Nothing found
+            </Typography>
+          )}
         </List>
       </Box>
     </Box>
